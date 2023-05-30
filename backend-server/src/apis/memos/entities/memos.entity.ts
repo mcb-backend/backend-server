@@ -1,45 +1,42 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { User } from 'src/apis/users/entities/users.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 @ObjectType()
-export class User {
+export class Memo {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String)
-  userId: string;
+  memoId: string;
+
+  @Column({ length: 100 })
+  @Field(() => String)
+  parse: string;
 
   @Column()
   @Field(() => String)
-  email: string;
-
-  @Column()
-  password: string;
+  title: string;
 
   @Column()
   @Field(() => String)
-  nickname: string;
-
-  @Column({ nullable: true })
-  @Field(() => String, { nullable: true })
-  image: string;
-
-  @Column({ nullable: true })
-  @Field(() => String, { nullable: true })
-  introduction: string;
+  author: string;
 
   @CreateDateColumn()
+  @Field(() => Date)
   createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @DeleteDateColumn()
+  @Field(() => Date)
   deletedAt: Date;
+
+  @ManyToOne(() => User)
+  @Field(() => User)
+  user: User;
 }
